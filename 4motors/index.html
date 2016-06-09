@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<style>
+	.button {
+		border: none;
+		color: white;
+		padding: 10px 15px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+	}
+	
+	.normal { background-color: #4CAF50; /*Green*/}
+	.special { background-color: #F44336; /*Red*/}
+	
+	p.arial {
+		font-size: 20px;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	</style>
+	
+	<script src = "/socket.io/socket.io.js"></script>
+	<script>
+		var socket = io.connect();
+		
+		socket.on("message", function (data) {
+			document.getElementById("status").innerHTML = data;
+		});
+		
+		function OnButton(motorId) {
+			socket.emit("button", motorId + "on");
+		}
+		function OffButton(motorId) {
+			socket.emit("button", motorId + "off");
+		}
+		function BackButton(motorId) {
+			socket.emit("button", motorId + "back");
+		}
+		function emergencyButton() {
+			socket.emit("button", "stop");
+		}
+	</script>
+	<title>Motor Control</title>
+</head>
+<body>
+	<p class="arial" id="status" align="center">unknown</p>
+	<hr>
+	<p align="center">
+		<button class="button normal" id="onButton_1" onclick="OnButton(1);">1 ^</button>
+		<button class="button normal" id="onButton_2" onclick="OnButton(2);">2 ^</button>
+		<button class="button normal" id="onButton_3" onclick="OnButton(3);">3 ^</button>
+		<button class="button normal" id="onButton_4" onclick="OnButton(4);">4 ^</button>
+	</p>
+	<p align="center">
+		<button class="button normal" id="offButton_1" onclick="OffButton(1);">1 o</button>
+		<button class="button normal" id="offButton_2" onclick="OffButton(2);">2 o</button>
+		<button class="button normal" id="offButton_3" onclick="OffButton(3);">3 o</button>
+		<button class="button normal" id="offButton_4" onclick="OffButton(4);">4 o</button>
+	</p>
+	<p align="center">
+		<button class="button normal" id="backButton_1" onclick="BackButton(1);">1 v</button>
+		<button class="button normal" id="backButton_2" onclick="BackButton(2);">2 v</button>
+		<button class="button normal" id="backButton_3" onclick="BackButton(3);">3 v</button>
+		<button class="button normal" id="backButton_4" onclick="BackButton(4);">4 v</button>
+	</p>
+	<p align="center">
+		<button class="button special" id="emergencyButton" onclick="emergencyButton();">Emergency Stop</button>
+	</p>
+</body>
+</html>
