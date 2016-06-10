@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<style>
+	.button {
+		border: none;
+		color: white;
+		padding: 10px 15px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+	}
+	
+	.normal { background-color: #4CAF50; /*Green*/}
+	.special { background-color: #F44336; /*Red*/}
+	
+	p.arial {
+		font-size: 20px;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	</style>
+	
+	<script src = "/socket.io/socket.io.js"></script>
+	<script>
+		var socket = io.connect();
+		
+		socket.on("message", function (data) {
+			document.getElementById("status").innerHTML = data;
+		});
+		
+		function OnButton() {
+			socket.emit("button", "on");
+		}
+		function OffButton() {
+			socket.emit("button", "off");
+		}
+		function BackButton() {
+			socket.emit("button", "back");
+		}
+		function leftButton() {
+			socket.emit("button", "left");
+		}
+		function rightButton() {
+			socket.emit("button", "right");
+		}
+		function emergencyButton() {
+			socket.emit("button", "emStop");
+		}
+	</script>
+	<title>Motor Control</title>
+</head>
+<body>
+	<p class="arial" id="status" align="center">unknown</p>
+	<hr>
+	<p align="center">
+		<button class="button normal" id="front" onclick="OnButton();">^</button>
+	</p>
+	<p align="center">
+		<button class="button normal" id="left" onclick="leftButton();"><</button>
+		<button class="button normal" id="stop" onclick="OffButton();">o</button>
+		<button class="button normal" id="right" onclick="rightButton();">></button>
+	</p>
+	<p align="center">
+		<button class="button normal" id="back" onclick="BackButton();">v</button>
+	</p>
+	<p align="center">
+		<button class="button special" id="emergencyButton" onclick="emergencyButton();">Emergency Stop</button>
+	</p>
+</body>
+</html>
